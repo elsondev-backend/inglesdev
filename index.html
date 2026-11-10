@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>English for Devs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Curso de inglês para profissionais de TI, do A1 ao B1, com episódios em vídeo ambientados num time de tecnologia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky top bar, hero with a "terminal" sample, then stacked bands; 1 column on phone, 2-3 columns on desktop. Floating WhatsApp button bottom-right. */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --ink: #141a2e;
+  --muted: #586079;
+  --line: #dde2ee;
+  --accent: #2f4fd8;
+  --accent-soft: #e6ebff;
+  --amber: #b86b00;
+  --term-bg: #182038;
+  --term-fg: #e3e8f7;
+  --term-dim: #8a95b8;
+  --wa: #1f9d55;
+  --wa-ink: #ffffff;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 14px;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1424; --surface: #171e33; --ink: #e8ecf8; --muted: #a2abc6; --line: #2a3350;
+    --accent: #8ea3ff; --accent-soft: #232d52; --amber: #f0b157;
+    --term-bg: #0a0e1b; --term-fg: #e3e8f7; --term-dim: #7b86a8;
+    --wa: #25b863; --wa-ink: #06210f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1424; --surface: #171e33; --ink: #e8ecf8; --muted: #a2abc6; --line: #2a3350;
+  --accent: #8ea3ff; --accent-soft: #232d52; --amber: #f0b157;
+  --term-bg: #0a0e1b; --term-fg: #e3e8f7; --term-dim: #7b86a8;
+  --wa: #25b863; --wa-ink: #06210f; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.band { padding-block: clamp(48px, 8vw, 96px); }
+.band.alt { background: var(--surface); border-block: 1px solid var(--line); }
+.eyebrow { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber); }
+.section-head { display: grid; gap: 12px; max-width: 680px; margin-bottom: 36px; }
+.section-head h2 { font-size: clamp(28px, 4vw, 40px); }
+.section-head p { color: var(--muted); font-size: 17px; }
+
+/* Top bar */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 19px; }
+.brand-mark { font-family: var(--font-mono); font-size: 14px; font-weight: 500; background: var(--ink); color: var(--bg); padding: 3px 7px; border-radius: 6px; }
+.nav { display: flex; align-items: center; gap: 6px; }
+.nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 12px; border-radius: 8px; }
+.nav a:hover { background: var(--accent-soft); }
+.nav a.nav-wa { background: var(--wa); color: var(--wa-ink); font-weight: 600; }
+.menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 10px; width: 44px; height: 44px; cursor: pointer; align-items: center; justify-content: center; }
+.menu-btn svg { width: 22px; height: 22px; }
+@media (max-width: 820px) {
+  .menu-btn { display: inline-flex; }
+  .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 2px; background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px var(--gutter-r) 16px var(--gutter-l); box-shadow: 0 12px 24px rgba(10, 16, 40, 0.12); }
+  .nav.open { display: flex; }
+  .nav a { padding: 14px 12px; font-size: 17px; }
+  .nav a.nav-wa { text-align: center; margin-top: 8px; }
+}
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 22px; border-radius: 12px; font-weight: 600; font-size: 16px; text-decoration: none; border: 1px solid transparent; cursor: pointer; font-family: var(--font-body); }
+.btn svg { width: 22px; height: 22px; flex: none; }
+.btn-wa { background: var(--wa); color: var(--wa-ink); }
+.btn-wa:hover { filter: brightness(1.06); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 7vw, 88px); }
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero-copy { display: grid; gap: 22px; min-width: 0; }
+.hero h1 { font-size: clamp(36px, 6vw, 62px); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-lede { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: 34em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.levels { display: flex; align-items: center; gap: 0; font-family: var(--font-mono); font-size: 14px; max-width: 420px; }
+.levels span { flex: 1; text-align: center; padding: 8px 0; border: 1px solid var(--line); background: var(--surface); }
+.levels span:first-child { border-radius: 10px 0 0 10px; }
+.levels span:last-child { border-radius: 0 10px 10px 0; }
+.levels span + span { border-left: 0; }
+.levels span.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.levels-note { font-size: 14px; color: var(--muted); }
+
+.terminal { background: var(--term-bg); color: var(--term-fg); border-radius: var(--radius); font-family: var(--font-mono); font-size: 14px; line-height: 1.7; box-shadow: 0 24px 48px rgba(10, 16, 40, 0.18); min-width: 0; overflow: hidden; }
+.term-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); color: var(--term-dim); font-size: 13px; }
+.term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #3a4466; display: inline-block; }
+.term-bar b { margin-left: 8px; font-weight: 400; }
+.term-body { padding: 18px 20px 22px; overflow-x: auto; }
+.term-body p { white-space: pre-wrap; }
+.t-dim { color: var(--term-dim); }
+.t-name { color: #ffc56b; }
+.t-good { color: #7fe0a4; }
+.t-fix { color: #ff9d9d; text-decoration: line-through; }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+/* Audience */
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 860px) { .grid-3 { grid-template-columns: 1fr; } }
+.persona { display: grid; gap: 10px; align-content: start; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); }
+.persona h3 { font-size: 20px; }
+.persona p { color: var(--muted); }
+.persona code { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+
+/* Episode anatomy */
+.anatomy { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; counter-reset: step; }
+@media (max-width: 900px) { .anatomy { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .anatomy { grid-template-columns: 1fr; } }
+.step { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+.step::before { counter-increment: step; content: counter(step); grid-row: span 2; font-family: var(--font-mono); font-weight: 500; font-size: 14px; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.step h3 { font-size: 17px; font-family: var(--font-body); font-weight: 600; letter-spacing: 0; align-self: center; }
+.step p { color: var(--muted); font-size: 15px; }
+
+/* Modules */
+.modules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 960px) { .modules { grid-template-columns: 1fr; } }
+.module { display: grid; grid-template-rows: auto auto 1fr; gap: 14px; padding: 24px; border-radius: var(--radius); background: var(--bg); border: 1px solid var(--line); min-width: 0; }
+.module-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.module-top span { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.cefr { font-family: var(--font-mono); font-size: 13px; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.module h3 { font-size: 22px; }
+.module > p { color: var(--muted); font-size: 15px; }
+.eps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); align-self: start; }
+.eps li { display: grid; grid-template-columns: 3.2em 1fr; gap: 8px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; min-width: 0; }
+.eps .ep-n { font-family: var(--font-mono); color: var(--muted); font-size: 13px; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.eps strong { font-weight: 600; display: block; }
+.eps small { color: var(--muted); font-size: 13.5px; }
+
+.advanced { margin-top: 28px; padding: 24px; border-radius: var(--radius); border: 1px dashed var(--line); display: grid; gap: 16px; }
+.advanced-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.advanced-head h3 { font-size: 20px; }
+.tag-soon { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--amber); border: 1px solid currentColor; padding: 2px 8px; border-radius: 999px; }
+.adv-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; list-style: none; margin: 0; padding: 0; }
+@media (max-width: 860px) { .adv-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .adv-list { grid-template-columns: 1fr; } }
+.adv-list li { padding: 14px 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); font-weight: 500; font-size: 15px; }
+.adv-list li span { display: block; font-weight: 400; color: var(--muted); font-size: 13.5px; }
+
+/* Routine */
+.routine { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 760px) { .routine { grid-template-columns: 1fr; } }
+.day { padding: 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); display: grid; gap: 4px; align-content: start; }
+.day b { font-family: var(--font-mono); font-size: 13px; color: var(--accent); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+.day span { font-size: 15px; }
+.day small { color: var(--muted); font-size: 13px; font-family: var(--font-mono); }
+
+/* FAQ */
+.faq { display: grid; gap: 10px; max-width: 820px; }
+.faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+.faq summary { cursor: pointer; padding: 18px 20px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--font-mono); color: var(--accent); font-size: 20px; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 20px 18px; color: var(--muted); }
+
+/* Contact */
+.contact .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 56px); align-items: start; }
+@media (max-width: 860px) { .contact .wrap { grid-template-columns: 1fr; } }
+.contact-copy { display: grid; gap: 18px; min-width: 0; }
+.contact-copy h2 { font-size: clamp(28px, 4vw, 40px); }
+.contact-copy > p { color: var(--muted); font-size: 17px; }
+.number-box { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.number-box .lbl { font-size: 13px; color: var(--muted); width: 100%; }
+.number-box .num { font-family: var(--font-mono); font-size: 18px; user-select: all; }
+.copy-btn { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+.quick { display: flex; flex-wrap: wrap; gap: 8px; }
+.quick a { font-size: 14px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
+.quick a:hover { border-color: var(--wa); color: var(--wa); }
+
+.form { display: grid; gap: 16px; padding: clamp(20px, 3vw, 28px); border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+.form h3 { font-size: 20px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 500; font-size: 15px; }
+.field input, .field select, .field textarea { font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; width: 100%; }
+.field textarea { min-height: 96px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.preview { font-family: var(--font-mono); font-size: 13px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 12px 14px; white-space: pre-wrap; overflow-wrap: anywhere; border: 1px dashed var(--line); }
+.hint { font-size: 13px; color: var(--muted); }
+
+/* Footer */
+footer { padding-block: 32px 110px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+/* Floating WhatsApp */
+.wa-float { position: fixed; z-index: 25; right: calc(18px + env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 10px; background: var(--wa); color: var(--wa-ink); text-decoration: none; border-radius: 999px; padding: 0 20px 0 16px; height: 58px; font-weight: 600; box-shadow: 0 10px 28px rgba(15, 80, 40, 0.35); }
+.wa-float svg { width: 28px; height: 28px; }
+.wa-float:hover { filter: brightness(1.06); }
+@media (max-width: 560px) { .wa-float { width: 60px; height: 60px; padding: 0; justify-content: center; } .wa-float span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.23 8.23 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><span class="brand-mark">EN</span> English for Devs</a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu"><svg><use href="#i-menu"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Seções">
+      <a href="#para-quem">Para quem é</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a class="nav-wa" href="#contato">Falar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Inglês para profissionais de TI</p>
+        <h1>Fale inglês na daily, no code review e na <em>entrevista</em>.</h1>
+        <p class="hero-lede">Um curso em vídeo do A1 ao B1, com 12 episódios ambientados num time de tecnologia. Você aprende o inglês que aparece no seu dia: tickets, bugs, sprint planning, pull requests e conversas com o cliente.</p>
+        <div class="hero-actions">
+          <a class="btn btn-wa js-wa" data-msg="Olá! Quero saber mais sobre o curso English for Devs." href="#contato" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quero saber mais</a>
+          <a class="btn btn-ghost" href="#modulos">Ver os 12 episódios</a>
+        </div>
+        <div style="display:grid;gap:8px">
+          <div class="levels" aria-label="Níveis do curso: A1, A2 e B1">
+            <span class="on">A1</span><span class="on">A2</span><span class="on">B1</span><span>B2</span><span>C1</span>
+          </div>
+          <p class="levels-note">Níveis do Quadro Europeu (CEFR) que o curso cobre.</p>
+        </div>
+      </div>
+
+      <figure class="terminal" aria-label="Exemplo de diálogo do episódio 2">
+        <div class="term-bar"><i></i><i></i><i></i><b>ep02-daily-standup.txt</b></div>
+        <div class="term-body">
+<p><span class="t-dim"># Episódio 2 · The daily stand-up</span></p>
+<p><span class="t-name">Tom:</span> Morning, everyone. Ana, you're up.</p>
+<p><span class="t-name">Ana:</span> Yesterday I fixed the login bug.</p>
+<p>     Today I'm working on the refund API.</p>
+<p>     No blockers.</p>
+<p> </p>
+<p><span class="t-dim"># erro comum de brasileiros</span></p>
+<p><span class="t-fix">I am with a problem in the deploy.</span></p>
+<p><span class="t-good">I'm having a problem with the deploy.</span></p>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band alt" id="para-quem">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Para quem é</p>
+        <h2>Feito para quem trabalha com tecnologia e trava no inglês</h2>
+        <p>Você lê documentação sem problema, mas na hora de falar numa call ou escrever um PR a frase não sai. O curso começa do básico e vai até você se virar em reuniões e entrevistas.</p>
+      </div>
+      <div class="grid-3">
+        <article class="persona">
+          <h3>Devs e QAs</h3>
+          <p>Para atualizar status na daily, descrever um bug com clareza e comentar <code>pull requests</code> sem medo de errar.</p>
+        </article>
+        <article class="persona">
+          <h3>SREs e suporte</h3>
+          <p>Para explicar um incidente, conduzir um postmortem e conversar com cliente durante uma falha em produção.</p>
+        </article>
+        <article class="persona">
+          <h3>Quem quer vaga lá fora</h3>
+          <p>Para contar sua experiência em inglês, responder perguntas no formato STAR e passar na entrevista técnica.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="como-funciona">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Como funciona</p>
+        <h2>Cada episódio treina as quatro habilidades</h2>
+        <p>Você acompanha a Ana, dev back-end brasileira, no time do Tom (tech lead), da Priya (PM) e do Mark (SRE). Todo episódio segue a mesma estrutura.</p>
+      </div>
+      <div class="anatomy">
+        <div class="step"><h3>Cena e diálogo</h3><p>Uma situação real do time, falada em inglês natural.</p></div>
+        <div class="step"><h3>Vocabulário</h3><p>As palavras e expressões que você vai usar no trabalho.</p></div>
+        <div class="step"><h3>Gramática na prática</h3><p>Só a regra que aparece na cena, com exemplos de TI.</p></div>
+        <div class="step"><h3>Leitura e interpretação</h3><p>Um ticket, e-mail ou RFC curto com perguntas de compreensão.</p></div>
+        <div class="step"><h3>Prática de fala</h3><p>Pausas para você responder em voz alta, como numa call.</p></div>
+        <div class="step"><h3>Desafio de escrita</h3><p>Um texto curto do dia a dia: status, mensagem no Slack, comentário de PR.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="modulos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Conteúdo</p>
+        <h2>3 módulos base, 12 episódios, mais 4 avançados</h2>
+        <p>A cada módulo você sobe um nível. No fim de cada um há uma revisão gravada para medir sua evolução.</p>
+      </div>
+      <div class="modules">
+        <article class="module">
+          <div class="module-top"><span class="cefr">A1</span><span>Módulo 1</span></div>
+          <h3>Primeiros passos no time</h3>
+          <ol class="eps">
+            <li><span class="ep-n">EP01</span><div><strong>Hi team, I'm Ana</strong><small>Apresentar-se, verbo to be</small></div></li>
+            <li><span class="ep-n">EP02</span><div><strong>The daily stand-up</strong><small>Presente simples e contínuo</small></div></li>
+            <li><span class="ep-n">EP03</span><div><strong>My stack and my setup</strong><small>Can / can't, there is / there are</small></div></li>
+            <li><span class="ep-n">EP04</span><div><strong>Can you help me?</strong><small>Pedir ajuda, imperativo, perguntas</small></div></li>
+          </ol>
+        </article>
+        <article class="module">
+          <div class="module-top"><span class="cefr">A2</span><span>Módulo 2</span></div>
+          <h3>A rotina do desenvolvimento</h3>
+          <ol class="eps">
+            <li><span class="ep-n">EP05</span><div><strong>What went wrong?</strong><small>Passado simples, relatar bugs</small></div></li>
+            <li><span class="ep-n">EP06</span><div><strong>Sprint planning</strong><small>Going to e will, estimativas</small></div></li>
+            <li><span class="ep-n">EP07</span><div><strong>Which one is better?</strong><small>Comparar tecnologias</small></div></li>
+            <li><span class="ep-n">EP08</span><div><strong>Code review</strong><small>Should, have to, must</small></div></li>
+          </ol>
+        </article>
+        <article class="module">
+          <div class="module-top"><span class="cefr">B1</span><span>Módulo 3</span></div>
+          <h3>Carreira e comunicação</h3>
+          <ol class="eps">
+            <li><span class="ep-n">EP09</span><div><strong>What have you worked on?</strong><small>Present perfect, experiência</small></div></li>
+            <li><span class="ep-n">EP10</span><div><strong>The technical interview</strong><small>Respostas no formato STAR</small></div></li>
+            <li><span class="ep-n">EP11</span><div><strong>Let's discuss the architecture</strong><small>Opinar e argumentar numa RFC</small></div></li>
+            <li><span class="ep-n">EP12</span><div><strong>Incident with a client</strong><small>Comunicar falhas com calma</small></div></li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="advanced">
+        <div class="advanced-head"><h3>Módulos avançados</h3><span class="tag-soon">Novo · depois do B1</span></div>
+        <ul class="adv-list">
+          <li>O ambiente de trabalho e a Daily Scrum<span>Status rápido, bloqueios e small talk</span></li>
+          <li>Decifrando documentações e termos técnicos<span>README, docs de API e RFCs</span></li>
+          <li>Reuniões de alinhamento e negociação de escopo<span>Prazos, trade-offs e como dizer “não”</span></li>
+          <li>Preparação para entrevistas internacionais<span>Recrutador, entrevista técnica e cultura</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="rotina">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Rotina sugerida</p>
+        <h2>Um episódio por semana, uns 20 minutos por dia</h2>
+      </div>
+      <div class="routine">
+        <div class="day"><b>Seg</b><span>Assistir o episódio</span><small>~20 min</small></div>
+        <div class="day"><b>Ter</b><span>Vocabulário e gramática</span><small>~20 min</small></div>
+        <div class="day"><b>Qua</b><span>Leitura e interpretação</span><small>~15 min</small></div>
+        <div class="day"><b>Qui</b><span>Prática de fala em voz alta</span><small>~15 min</small></div>
+        <div class="day"><b>Sex</b><span>Desafio de escrita</span><small>~20 min</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="duvidas">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Dúvidas frequentes</p>
+        <h2>Antes de começar</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Preciso saber algum inglês para começar?</summary>
+          <p>Não. O Módulo 1 parte do A1, com explicações em português. A partir do Módulo 3 a narração passa a ser em inglês.</p>
+        </details>
+        <details>
+          <summary>Serve para quem não é programador?</summary>
+          <p>Serve para qualquer pessoa de TI: QA, suporte, SRE, dados, produto. As situações são de um time de tecnologia, mas o inglês é o mesmo de qualquer escritório.</p>
+        </details>
+        <details>
+          <summary>Posso assistir pelo celular?</summary>
+          <p>Sim. Os episódios e exercícios funcionam no celular e no computador.</p>
+        </details>
+        <details>
+          <summary>Tem correção dos textos que eu escrevo?</summary>
+          <p>Fale com a gente pelo WhatsApp para saber como enviar seus desafios de escrita para correção.</p>
+        </details>
+        <details>
+          <summary>O que vem depois do B1?</summary>
+          <p>Quatro módulos avançados: Daily Scrum, documentação técnica, negociação de escopo e entrevistas internacionais.</p>
+        </details>
+        <details>
+          <summary>Quanto custa?</summary>
+          <p>Mande uma mensagem pelo WhatsApp e enviamos os valores e as formas de pagamento.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band contact" id="contato">
+    <div class="wrap">
+      <div class="contact-copy">
+        <p class="eyebrow">Contato</p>
+        <h2>Fale com a gente pelo WhatsApp</h2>
+        <p>Tire dúvidas, peça os valores ou diga qual é o seu nível. A gente responde por mensagem.</p>
+        <div class="number-box">
+          <span class="lbl">Número do WhatsApp</span>
+          <span class="num" id="wa-number">+55 (00) 00000-0000</span>
+          <button class="copy-btn" id="copy-btn" type="button">Copiar número</button>
+        </div>
+        <div class="quick" aria-label="Mensagens prontas">
+          <a class="js-wa" target="_blank" rel="noopener" href="#contato" data-msg="Olá! Quanto custa o curso English for Devs?">Quanto custa?</a>
+          <a class="js-wa" target="_blank" rel="noopener" href="#contato" data-msg="Olá! Não sei meu nível de inglês. Podem me ajudar a descobrir?">Qual é o meu nível?</a>
+          <a class="js-wa" target="_blank" rel="noopener" href="#contato" data-msg="Olá! Quando saem os módulos avançados do English for Devs?">Módulos avançados</a>
+        </div>
+      </div>
+
+      <form class="form" id="wa-form" novalidate>
+        <h3>Monte sua mensagem</h3>
+        <div class="field">
+          <label for="f-name">Seu nome</label>
+          <input id="f-name" name="name" autocomplete="name" placeholder="Ex.: Juliana">
+        </div>
+        <div class="field">
+          <label for="f-role">Sua área</label>
+          <select id="f-role" name="role">
+            <option>Desenvolvimento</option>
+            <option>QA / Testes</option>
+            <option>Infra / SRE / DevOps</option>
+            <option>Dados</option>
+            <option>Produto / Gestão</option>
+            <option>Suporte</option>
+            <option>Outra</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-level">Seu inglês hoje</label>
+          <select id="f-level" name="level">
+            <option>Nunca estudei (A1)</option>
+            <option selected>Leio, mas não falo (A2)</option>
+            <option>Me viro em conversas simples (B1)</option>
+            <option>Não sei dizer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">Mensagem (opcional)</label>
+          <textarea id="f-msg" name="msg" placeholder="Ex.: Tenho entrevista com empresa de fora em 2 meses."></textarea>
+        </div>
+        <div class="field">
+          <span class="hint">Prévia do que vai no WhatsApp</span>
+          <div class="preview" id="preview" aria-live="polite"></div>
+        </div>
+        <a class="btn btn-wa" id="form-send" href="#contato" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Abrir no WhatsApp</a>
+        <p class="hint">O botão abre o WhatsApp com a mensagem pronta. Se não abrir, copie o número acima e mande a mensagem por lá.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>English for Devs · Inglês para profissionais de TI</span>
+    <span>A1 → B1 · 12 episódios + 4 módulos avançados</span>
+  </div>
+</footer>
+
+<a class="wa-float js-wa" href="#contato" target="_blank" rel="noopener" data-msg="Olá! Vim pelo site e quero saber mais sobre o curso English for Devs." aria-label="Conversar no WhatsApp"><svg><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+
+<script>
+(function () {
+  // Troque pelo número real: código do país + DDD + número, só dígitos. Ex.: 5511987654321
+  var WHATSAPP_NUMBER = "5500000000000";
+
+  function waLink(msg) {
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  }
+  function fmt(n) {
+    var m = n.match(/^(\d{2})(\d{2})(\d{4,5})(\d{4})$/);
+    return m ? "+" + m[1] + " (" + m[2] + ") " + m[3] + "-" + m[4] : "+" + n;
+  }
+
+  document.getElementById("wa-number").textContent = fmt(WHATSAPP_NUMBER);
+  document.querySelectorAll(".js-wa").forEach(function (a) {
+    a.href = waLink(a.getAttribute("data-msg"));
+  });
+
+  // Menu mobile
+  var btn = document.getElementById("menu-btn"), nav = document.getElementById("nav");
+  btn.addEventListener("click", function () {
+    var open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open);
+    btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.tagName === "A") { nav.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
+  });
+
+  // Formulário -> mensagem do WhatsApp
+  var form = document.getElementById("wa-form"), preview = document.getElementById("preview"), send = document.getElementById("form-send");
+  function buildMsg() {
+    var name = document.getElementById("f-name").value.trim();
+    var role = document.getElementById("f-role").value;
+    var level = document.getElementById("f-level").value;
+    var extra = document.getElementById("f-msg").value.trim();
+    var msg = "Olá! " + (name ? "Sou " + name + ", trabalho" : "Trabalho") + " com " + role + " e meu inglês hoje é: " + level + ".\nQuero saber mais sobre o curso English for Devs.";
+    if (extra) msg += "\n\n" + extra;
+    preview.textContent = msg;
+    send.href = waLink(msg);
+  }
+  form.addEventListener("input", buildMsg);
+  form.addEventListener("change", buildMsg);
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  buildMsg();
+
+  // Copiar número
+  var copyBtn = document.getElementById("copy-btn");
+  copyBtn.addEventListener("click", function () {
+    var text = "+" + WHATSAPP_NUMBER;
+    function done(label) { copyBtn.textContent = label; setTimeout(function () { copyBtn.textContent = "Copiar número"; }, 1800); }
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById("wa-number"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done("Selecionado");
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () { done("Copiado"); }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+
+</body>
+</html>
